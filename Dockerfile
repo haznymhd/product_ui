@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:latest AS build-stage
+FROM public.ecr.aws/docker/library/node:slim AS build-stage
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Use a lightweight web server to serve the built app
-FROM nginx:alpine
+FROM public.ecr.aws/nginx/nginx:stable-perl
 
 # Copy the built app from the previous stage to the nginx directory
 COPY --from=build-stage /app/build /usr/share/nginx/html
